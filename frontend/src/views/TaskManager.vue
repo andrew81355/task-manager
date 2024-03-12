@@ -40,10 +40,6 @@ export default {
         }
     },
 
-    mounted() {
-        fetch('/api/task');
-    },
-
     methods: {
         openDialog() {
             this.showDialog = true;
