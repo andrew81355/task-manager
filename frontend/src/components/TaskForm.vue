@@ -39,7 +39,8 @@ export default {
             if (this.title.length < 4 ) {
                 return;
             }
-            this.$emit('submit', { title: this.title, description: this.description, status: this.status})
+            this.$emit('submit', { title: this.title, description: this.description, status: this.status});
+            this.resetValues();
         },
 
         cancel() {

@@ -1,7 +1,7 @@
 <template>
     <div class="task-column" v-if="relatedTask">
         <h3 class="text-center task-header">{{ header }}</h3>
-        <TaskCard v-for="(task, index) in relatedTask" :id="task.index" :task="task" @delete="deleteTask"></TaskCard>
+        <TaskCard v-for="task in relatedTask" :id="task.id" :task="task" @delete="deleteTask"></TaskCard>
     </div>
   
 </template>
