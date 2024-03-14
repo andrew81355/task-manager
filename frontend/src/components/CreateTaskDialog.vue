@@ -25,7 +25,8 @@ export default {
     props: {
         showDialog: {
             default: false,
-        }
+        }, 
+
     },
 
     methods: {

@@ -6,6 +6,7 @@
   
 </template>
 <script>
+import axios from 'axios';
 import TaskCard from './TaskCard.vue';
 
 export default {
@@ -22,8 +23,14 @@ export default {
     },
 
     methods: {
-        deleteTask(taskId) {
-            console.log(taskId);
+        async deleteTask(taskId) {
+            try {
+                const res = await axios.delete(`/api/tasks/${taskId}`);
+            } catch(err) {
+                console.log(err);
+            } finally {
+                this.$emit('refresh');
+            }  
         }
     },
 

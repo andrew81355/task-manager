@@ -6,11 +6,11 @@
         </ul>
         </nav>
         <div class="container">
-            <TaskColumn header="Open" :tasks="this.data" status="open">
+            <TaskColumn header="Open" :tasks="this.data" status="open" @refresh="loadTasks">
             </TaskColumn>
-            <TaskColumn header="In Progress" :tasks="this.data" status="in progress">
+            <TaskColumn header="In Progress" :tasks="this.data" status="in progress" @refresh="loadTasks">
             </TaskColumn>
-            <TaskColumn header="Done" :tasks="this.data" status="done">
+            <TaskColumn header="Done" :tasks="this.data" status="done" @refresh="loadTasks">
             </TaskColumn>
         </div>
         <CreateTaskDialog :show-dialog="showDialog" @reset="closeDialog" @submit="createNewTask"></CreateTaskDialog>
@@ -20,24 +20,19 @@
 <script>
 import CreateTaskDialog from '@/components/CreateTaskDialog.vue';
 import TaskColumn from '@/components/TaskColumn.vue';
+import axios from 'axios';
 
 
 export default {
     data() {
         return {
             showDialog: false,
-            data: [{ id: 1, title: "Update User Profile", description: "Update user profile information with new data", status: "open" },
-            { id: 2, title: "Implement Login Authentication", description: "Implement authentication mechanism for user login", status: "in progress" },
-            { id: 3, title: "Design Landing Page", description: "Create the layout and design for the landing page", status: "done" },
-            { id: 4, title: "Fix Bug in Payment Gateway", description: "Identify and fix the bug causing issues in the payment gateway", status: "open" },
-            { id: 5, title: "Refactor Database Schema", description: "Optimize and refactor the database schema for better performance", status: "in progress" },
-            { id: 6, title: "Deploy Application to Production", description: "Deploy the application to production server for public access", status: "done" },
-            { id: 7, title: "Write Unit Tests for User Module", description: "Write unit tests to ensure functionality of user module", status: "open" },
-            { id: 8, title: "Optimize Page Load Time", description: "Optimize website to reduce page load time and improve user experience", status: "in progress" },
-            { id: 9, title: "Create API Documentation", description: "Document the APIs with clear instructions and examples", status: "done" },
-            { id: 10, title: "Implement Forgot Password Feature", description: "Implement feature to allow users to reset their passwords", status: "open" }
-            ]
+            data: [],
         }
+    },
+
+    mounted() {
+        this.loadTasks();
     },
 
     methods: {
@@ -49,9 +44,21 @@ export default {
             this.showDialog = false;
         },
 
-        createNewTask(task) {
-            this.data.push(task)
-            this.closeDialog();
+        async createNewTask(task) {
+            try {
+                await axios.post('/api/tasks', task);
+                this.loadTasks();
+                this.closeDialog();
+
+            } catch(err) {
+                console.log(err);
+                this.loadTasks();
+            }
+        },
+
+        async loadTasks() {
+           const response =  await axios.get('/api/tasks');
+           this.data = response.data;
         }
     },
 
@@ -81,16 +88,5 @@ export default {
     gap: 1rem;
     justify-content: center;
     align-items: center;
-}
-
-.nav-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 </style>
