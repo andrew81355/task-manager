@@ -13,7 +13,7 @@
             <TaskColumn header="Done" :tasks="this.data" status="done">
             </TaskColumn>
         </div>
-        <CreateTaskDialog :open-dialog="showDialog" @reset="closeDialog" @submit="createNewTask"></CreateTaskDialog>
+        <CreateTaskDialog :show-dialog="showDialog" @reset="closeDialog" @submit="createNewTask"></CreateTaskDialog>
     </div>
 </template>
 
@@ -51,6 +51,7 @@ export default {
 
         createNewTask(task) {
             this.data.push(task)
+            this.closeDialog();
         }
     },
 

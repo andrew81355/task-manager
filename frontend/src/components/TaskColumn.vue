@@ -1,7 +1,7 @@
 <template>
     <div class="task-column" v-if="relatedTask">
         <h3 class="text-center task-header">{{ header }}</h3>
-        <TaskCard v-for="(task, index) in relatedTask" :id="task.index" :task="task"></TaskCard>
+        <TaskCard v-for="(task, index) in relatedTask" :id="task.index" :task="task" @delete="deleteTask"></TaskCard>
     </div>
   
 </template>
@@ -18,6 +18,12 @@ export default {
     computed: {
         relatedTask() {
             return this.tasks.filter(task => task.status === this.status);
+        }
+    },
+
+    methods: {
+        deleteTask(taskId) {
+            console.log(taskId);
         }
     },
 

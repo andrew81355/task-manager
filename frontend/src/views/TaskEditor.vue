@@ -1,9 +1,11 @@
 <template>
-   <TaskCard :task="task"></TaskCard>
-   <router-link to="/"><button type="button" style="margin: 1rem;">HOME</button></router-link>
+    <div class="task-editor">
+        <router-link to="/"><button type="button" class="nav-btn">HOME</button></router-link>
+        <TaskForm :task="task" @canceled="redirectToMainPage" @submit="updateTask"></TaskForm>
+    </div>
 </template>
 <script>
-import TaskCard from '@/components/TaskCard.vue';
+import TaskForm from '@/components/TaskForm.vue';
 
 export default {
     data() {
@@ -32,9 +34,26 @@ export default {
         }
     },
 
-    components: { TaskCard }
+    methods: {
+        redirectToMainPage() {
+            this.$router.push('/')
+        },
+
+        updateTask() {
+            console.log('updateTask')
+        }
+    },
+
+    components: { TaskForm }
 }
 </script>
-<style>
+<style scoped>
+.task-editor {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+}
     
 </style>

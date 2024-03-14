@@ -3,64 +3,37 @@
         <div class="dialog-header">
             <h2>Create a task</h2>
         </div>
-        <form @submit.prevent="submit">
-            <div class="dialog-content">
-                <label for="title"></label>
-                <input type="text" name="desciption" placeholder="Title ... " v-model="title">
-                <label for="status"></label>
-                <select name="status" id="status" v-model="status">
-                    <option value="create">Create</option>
-                    <option value="in progress">In Progress</option>
-                    <option value="done">Done</option>
-                </select>
-                <label for="description"></label>
-                <textarea name="description" id="description" cols="30" rows="10" v-model="description"></textarea>
-            </div>
-            <div id="footer" class="dialog-footer">
-                <button type="submit" style="margin-right: 1rem;">OK</button>
-                <button type="reset" @click="reset">Cancel</button>
-            </div>
-        </form>
+       <TaskForm @submit="submitHandler" @canceled="closeModal"></TaskForm>
     </dialog>
 </template>
+
 <script>
+import TaskForm from '@/components/TaskForm.vue';
+
 export default {
 
-    data() {
-        return {
-            title: '',
-            description: '',
-            status:'open'
-        }
-    },
     watch: {
-        openDialog() {
-            if (this.openDialog) {
+        showDialog() {
+            if (this.showDialog) {
                 this.$refs.modal.showModal();
+            } else {
+                this.$refs.modal.close();
             }
-            
         }
     },
 
     props: {
-        openDialog: {
+        showDialog: {
             default: false,
         }
     },
 
     methods: {
-        submit() {
-            if (this.title.length < 4 ) {
-                return;
-            }
-
-            this.$emit('submit', { title: this.title, description: this.description, status: this.status})
-            this.$refs.modal.close();
-            this.resetValues();
+        submitHandler(task) {
+            this.$emit('submit', task);
         },
 
-        reset() {
-            this.$refs.modal.close();
+        closeModal() {
             this.resetValues();
             this.$emit('reset');
         },
@@ -68,8 +41,11 @@ export default {
         resetValues() {
             this.title = '';
             this.description = '';
-        }
+        },
     },
+
+
+    components: {TaskForm}
 }
 </script>
 <style>
