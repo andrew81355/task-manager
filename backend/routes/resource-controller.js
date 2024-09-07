@@ -8,7 +8,7 @@ const resources = [
     // Add more mock resources as needed
   ];
   
-  // Route to get resource by ID
+  //Route to get resource by ID
   router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
   

@@ -1,7 +1,7 @@
 <template>
     <div class="task-column" v-if="relatedTask">
         <h3 class="text-center task-header">{{ header }}</h3>
-        <TaskCard v-for="task in relatedTask" :id="task.id" :task="task" @delete="deleteTask"></TaskCard>
+        <TaskCard v-for="task in relatedTask" :key="task.id" :id="task.id" :task="task" @delete="deleteTask" ></TaskCard>
     </div>
   
 </template>
@@ -25,7 +25,7 @@ export default {
     methods: {
         async deleteTask(taskId) {
             try {
-                const res = await axios.delete(`/api/tasks/${taskId}`);
+                await axios.delete(`/api/tasks/${taskId}`);
             } catch(err) {
                 console.log(err);
             } finally {
