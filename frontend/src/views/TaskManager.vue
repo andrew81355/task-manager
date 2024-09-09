@@ -47,12 +47,12 @@ export default {
         async createNewTask(task) {
             try {
                 await axios.post('/api/tasks', task);
-                this.loadTasks();
+                await this.loadTasks();
                 this.closeDialog();
 
             } catch(err) {
                 console.log(err);
-                this.loadTasks();
+                await this.loadTasks();
             }
         },
 
