@@ -9,16 +9,18 @@ app.use(express.json());
 app.use('/tasks', taskRouter);
 app.use('/resources', resourceRouter);
 
-try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/mydatabase', {});
-    console.log('connected to mongodb');
-} catch (err) {
-    console.log(err);
-}
+if (process.env.NODE_ENV !== 'test') {
+    try {
+        await mongoose.connect('mongodb://127.0.0.1:27017/mydatabase', {});
+        console.log('connected to mongodb');
 
-app.listen(3000, () => {
-    console.log('Server is running!!!!');
-});
+        app.listen(3000, () => {
+            console.log('Server is running on port 3000');
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 export default app;
 

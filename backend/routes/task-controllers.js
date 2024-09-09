@@ -4,8 +4,8 @@ import { Task } from "../models/task.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const taskss = await Task.find({});
-  res.json(taskss);
+  const tasks = await Task.find({});
+  res.json(tasks);
 });
 
 router.get("/:id", async (req, res) => {
