@@ -1,34 +1,37 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
 import pluginCypress from "eslint-plugin-cypress";
+import js from "@eslint/js";
 
 export default [
-    // Apply to JavaScript, Vue, and Cypress files
     {
-        files: ["**/*.{js,mjs,cjs,vue}"],
+        files: ["**/*.{js,cy.js}"],
         languageOptions: {
+            ecmaVersion: 2021,
             globals: {
                 ...globals.browser,
+                ...pluginCypress.environments.globals.globals
             },
-            ecmaVersion: 2021, // Optional: specify ECMAScript version
         },
-        plugins: {
-            vue: pluginVue,
-            cypress: pluginCypress,
-        },
-        processor: pluginVue.processors[".vue"], // Vue-specific processing for .vue files
-        rules: {
-            // Add any custom rules here
-        },
+        rules: js.configs.recommended.rules,
+
     },
 
-    // Add JS recommended config
-    pluginJs.configs.recommended,
+    // Apply recommended rules to JS files with an override
+    {
+        files: ["**/*.js"],
+        rules: {
+            ...js.configs.recommended.rules,
+            "no-unused-vars": "warn"
+        }
+    },
 
-    // Add Vue recommended config
-    pluginVue.configs.recommended,
-
-    // Add Cypress recommended config
-    pluginCypress.configs.recommended,
+    // Apply all rules to JS files
+    {
+        files: ["**/*.js"],
+        rules: {
+            ...js.configs.all.rules,
+            "no-unused-vars": "warn"
+        }
+    },
 ];

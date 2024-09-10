@@ -7,7 +7,8 @@ describe('it can create a task', () => {
         cy.contains('Create a Task');
         cy.get('button.nav-btn').click();
 
-        cy.get('dialog.dialog-box').should('be.visible'); // Check if the modal dialog is visible
+        // Check if the modal dialog is visible
+        cy.get('dialog.dialog-box').should('be.visible');
 
         // Testing task creation form
         cy.get('h2').contains('Create a task');
@@ -28,8 +29,9 @@ describe('it can create a task', () => {
     });
 
     it('should create a new task using intercept', () => {
+        // Simulate a 201 (Created) response
         cy.intercept('POST', '/api/tasks', {
-            statusCode: 201,  // Simulate a 201 (Created) response
+            statusCode: 201,
             body: {
                 "message": "ok"
             },
