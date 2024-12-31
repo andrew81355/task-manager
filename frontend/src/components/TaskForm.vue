@@ -3,7 +3,7 @@
         <form @submit.prevent.stop="submit">
             <div class="dialog-content">
                 <label for="title"></label>
-                <input type="text" name="desciption" placeholder="Title ... " v-model="title">
+                <input type="text" name="title" placeholder="Title ... " v-model="title">
                 <label for="status"></label>
                 <select name="status" id="status" v-model="status">
                     <option value="open">Open</option>

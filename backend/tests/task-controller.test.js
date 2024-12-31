@@ -50,9 +50,12 @@ describe('Task Controller Tests', () => {
 
         expect(response.body.message).toBe('ok');
 
-        const task = await Task.findOne({ title: 'Task 3' });
+        const task = await Task.
+        findOne({ title: 'Task 3' });
         expect(task).not.toBeNull();
         expect(task.title).toBe('Task 3');
+        expect(task.description).toBe('New task');
+        expect(task.status).toBe('open');
     });
 
     it('should not create a task with an existing title', async () => {
