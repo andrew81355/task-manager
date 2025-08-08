@@ -1,0 +1,65 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+image: docker:20.10.16
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+
+######################################
+# 🧪 Frontend: Lint + Vitest
+######################################
+frontend_test:
+  stage: test
+  script:
+    - docker build --target test -t frontend-test ./frontend
+    - docker run --rm frontend-test
+
+######################################
+# 🧪 Backend: Vitest + mongodb-memory-server
+######################################
+backend_test:
+  stage: test
+  script:
+    - docker build --target test -t backend-test ./backend
+    - docker run --rm backend-test
+
+######################################
+# 🛠️ Frontend Build: Production Bundle
+######################################
+frontend_build:
+  stage: build
+  script:
+    - docker build --target build -t frontend-build ./frontend
+    # extract frontend dist output
+    - docker create --name temp frontend-build
+    - docker cp temp:/app/dist ./dist
+    - docker rm temp
+  artifacts:
+    paths:
+      - dist
+
+######################################
+# 🛠️ Backend Build (optional, for deploy)
+######################################
+backend_build:
+  stage: build
+  script:
+    - docker build --target build -t backend-build ./backend
+
+######################################
+# 🚀 Deployment (optional)
+######################################
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploy logic goes here (e.g. docker push or ssh)"
+  only:
+    - main
