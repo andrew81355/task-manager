@@ -25,7 +25,7 @@ export default {
     methods: {
         async deleteTask(taskId) {
             try {
-                await axios.delete(`/api/tasks/${taskId}`);
+                await axios.delete(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`);
             } catch(err) {
                 console.log(err);
             } finally {

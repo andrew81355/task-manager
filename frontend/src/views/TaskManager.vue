@@ -46,7 +46,7 @@ export default {
 
         async createNewTask(task) {
             try {
-                await axios.post('/api/tasks', task);
+                await axios.post(`${import.meta.env.VITE_API_URL}/tasks`, task);
                 await this.loadTasks();
                 this.closeDialog();
 
@@ -57,7 +57,7 @@ export default {
         },
 
         async loadTasks() {
-           const response =  await axios.get('/api/tasks');
+           const response =  await axios.get(`${import.meta.env.VITE_API_URL}/tasks`);
            this.data = response.data;
         }
     },
