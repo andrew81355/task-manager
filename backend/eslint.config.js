@@ -1,19 +1,35 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
-import vitestPlugin from "eslint-plugin-vitest";
+import js from "@eslint/js";
+
 
 export default [
     {
+        files: ["**/*.{js,cy.js}"],
         languageOptions: {
+            ecmaVersion: 2021,
             globals: {
                 ...globals.browser,
-                ...globals.node,
-                ...vitestPlugin.environments.env.globals
             },
         },
+        rules: js.configs.recommended.rules,
+
     },
 
-    pluginJs.configs.recommended,
-    // Add Vitest recommended configuration
-    vitestPlugin.configs.recommended
+    // Apply recommended rules to JS files with an override
+    {
+        files: ["**/*.js"],
+        rules: {
+            ...js.configs.recommended.rules,
+            "no-unused-vars": "warn"
+        }
+    },
+
+    // Apply all rules to JS files
+    {
+        files: ["**/*.js"],
+        rules: {
+            ...js.configs.all.rules,
+            "no-unused-vars": "warn"
+        }
+    },
 ];
