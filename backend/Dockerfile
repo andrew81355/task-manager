@@ -10,10 +10,13 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+COPY . .
+
+FROM base AS dev
 # Expose frontend port
 EXPOSE 3000
 # ---------- Development Stage ----------
-FROM base AS dev
+
 
 CMD ["npm", "run", "dev" ]
 
