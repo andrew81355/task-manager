@@ -25,10 +25,8 @@ const taskSchema = mongoose.Schema(
   }
 );
 
-taskSchema.statics.build = (attrs) => {
-  return new Task(attrs);
-};
-
 const Task = mongoose.model("Task", taskSchema);
+
+taskSchema.statics.build = (attrs) => (new Task(attrs));
 
 export { Task };

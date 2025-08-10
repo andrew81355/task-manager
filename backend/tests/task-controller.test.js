@@ -1,13 +1,12 @@
 import request from 'supertest';
-import { setupTestDB } from './test-setup.js'; // Assuming you have the setupTestDB file
-import app from '../index.js'; // Your Express app instance
+import { setupTestDB } from './test-setup.js';
+import app from '../index.js';
 import { Task } from '../models/task';
 
 // Set up the test database, including seeding if needed
 setupTestDB();
 
 describe('Task Controller Tests', () => {
-
     // Seed the database with some test data before running the tests
     beforeEach(async () => {
         await Task.insertMany([

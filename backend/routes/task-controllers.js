@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+  const {id} = req.params;
   const task = await Task.findOne({ _id: id });
   if (!task) {
     return res.status(404).json({ message: "Not Found" });
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   const newTask = Task.build(req.body);
   await newTask.save();
 
-  res.status(201).json({message: 'ok'});
+  return res.status(201).json({message: 'ok'});
 });
 
 router.put("/:id", async (req, res) => {

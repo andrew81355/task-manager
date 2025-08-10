@@ -29,7 +29,17 @@ export default [
         files: ["**/*.js"],
         rules: {
             ...js.configs.all.rules,
-            "no-unused-vars": "warn"
+            "no-unused-vars": "warn",
+            "sort-keys": "off",
+            "sort-imports": "off",
+            "no-undef": "off",
+            "new-cap": "off",
+            "no-magic-numbers": "off",
+            "max-lines-per-function": "off",
+            "one-var": "off",
+            "no-underscore-dangle": "off",
+            "camelcase" : "off",
+            "id-length": "off"
         }
     },
 ];
