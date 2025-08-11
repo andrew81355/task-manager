@@ -25,8 +25,10 @@ const taskSchema = mongoose.Schema(
   }
 );
 
-const Task = mongoose.model("Task", taskSchema);
 
+
+// eslint-disable-next-line no-use-before-define
 taskSchema.statics.build = (attrs) => (new Task(attrs));
+const Task = mongoose.model("Task", taskSchema);
 
 export { Task };

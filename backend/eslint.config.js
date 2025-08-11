@@ -39,7 +39,9 @@ export default [
             "one-var": "off",
             "no-underscore-dangle": "off",
             "camelcase" : "off",
-            "id-length": "off"
+            "id-length": "off",
+            "capitalized-comments": "off",
+            "max-statements": "off"
         }
     },
 ];

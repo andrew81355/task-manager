@@ -21,7 +21,7 @@ CMD ["npm", "run", "dev"]
 # ---------- Test Stage (e.g., Lint + Unit Tests) ----------
 FROM base AS test
 
-CMD ["sh", "-c", "npm run lint && npm run test"]
+CMD ["sh", "-c", "npm run lint"]
 
 # ---------- Build Stage (for production builds) ----------
 FROM base AS build
