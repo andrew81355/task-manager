@@ -13,27 +13,29 @@ services:
 before_script:
   - docker info
 
-######################################
-# 🧪 Frontend: Lint + Vitest
-######################################
+# Frontend: Lint + Vitest
 frontend_test:
   stage: test
   script:
     - docker build --target test -t frontend-test ./frontend
     - docker run --rm frontend-test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: on_success
+    - when: never
 
-######################################
-# 🧪 Backend: Vitest + mongodb-memory-server
-######################################
+# Backend: Vitest + mongodb-memory-server
 backend_test:
   stage: test
   script:
     - docker build --target test -t backend-test ./backend
     - docker run --rm backend-test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: on_success
+    - when: never
 
-######################################
-# 🛠️ Frontend Build: Production Bundle
-######################################
+# Frontend Build: Production Bundle
 frontend_build:
   stage: build
   script:
@@ -42,24 +44,33 @@ frontend_build:
     - docker create --name temp frontend-build
     - docker cp temp:/app/dist ./dist
     - docker rm temp
+  rules:
+    - if: '$CI_COMMIT_TAG'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - when: never
   artifacts:
     paths:
       - dist
 
-######################################
-# 🛠️ Backend Build (optional, for deploy)
-######################################
+# Backend Build 
+
 backend_build:
   stage: build
   script:
     - docker build --target build -t backend-build ./backend
+  rules:
+    - if: '$CI_COMMIT_TAG'                         
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - when: never
 
-######################################
-# 🚀 Deployment (optional)
-######################################
+#  Deployment
+
 deploy:
   stage: deploy
   script:
     - echo "Deploy logic goes here (e.g. docker push or ssh)"
   only:
     - main
+  rules:
+    - if: '$CI_COMMIT_TAG'
+    - when: manual                                 
