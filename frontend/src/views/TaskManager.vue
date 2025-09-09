@@ -1,8 +1,9 @@
 <template>
     <div>
         <nav class="nav">
-            <ul>
+            <ul class="flex items-center p-2 justify-between">
             <li style="list-style-type:none;"><button type="button" class="nav-btn" @click="openDialog">Create a Task</button></li>
+            <li><button class="bg-red-600 p-2 rounded text-white" @click="logout">Logout</button></li>
         </ul>
         </nav>
         <div class="container">
@@ -18,8 +19,10 @@
 </template>
 
 <script>
+import { api } from '@/api/auth';
 import CreateTaskDialog from '@/components/CreateTaskDialog.vue';
 import TaskColumn from '@/components/TaskColumn.vue';
+import router from '@/router';
 import axios from 'axios';
 
 
@@ -46,7 +49,7 @@ export default {
 
         async createNewTask(task) {
             try {
-                await axios.post(`${import.meta.env.VITE_API_URL}/tasks`, task);
+                await api.post(`${import.meta.env.VITE_API_URL}/tasks`, task);
                 await this.loadTasks();
                 this.closeDialog();
 
@@ -57,9 +60,16 @@ export default {
         },
 
         async loadTasks() {
-           const response =  await axios.get(`${import.meta.env.VITE_API_URL}/tasks`);
+           const response =  await api.get(`${import.meta.env.VITE_API_URL}/tasks`);
            this.data = response.data;
-        }
+        },
+
+        async logout() {
+            const response = await api.post(`${import.meta.env.VITE_API_URL}/auth/logout`)
+            localStorage.removeItem('accessToken');
+            router.push('/auth');
+
+        } 
     },
 
     components: { TaskColumn, CreateTaskDialog },
@@ -69,11 +79,6 @@ export default {
 <style scoped>
 .nav {
     background-color: rgb(10, 40, 100);
-    padding: .25rem;
-}
-
-.button {
-    border-radius: 10px;
     padding: .25rem;
 }
 

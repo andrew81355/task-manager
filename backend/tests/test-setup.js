@@ -7,7 +7,7 @@ export const setupTestDB = () => {
   beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const uri = mongoServer.getUri();
-    await mongoose.connect(uri, { useUnifiedTopology: true });
+    await mongoose.connect(uri);
   });
 
   afterEach(async () => {

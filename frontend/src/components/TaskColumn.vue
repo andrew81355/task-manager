@@ -6,8 +6,8 @@
   
 </template>
 <script>
-import axios from 'axios';
 import TaskCard from './TaskCard.vue';
+import { api } from '@/api/auth';
 
 export default {
     props: {
@@ -25,7 +25,7 @@ export default {
     methods: {
         async deleteTask(taskId) {
             try {
-                await axios.delete(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`);
+                await api.delete(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`);
             } catch(err) {
                 console.log(err);
             } finally {
