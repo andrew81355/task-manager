@@ -5,8 +5,8 @@
     </div>
 </template>
 <script>
+import { api } from '@/api/auth';
 import TaskForm from '@/components/TaskForm.vue';
-import axios from 'axios';
 
 export default {
 
@@ -34,7 +34,7 @@ export default {
 
         async updateTask(data) {
             try {
-                await axios.put(`${import.meta.env.VITE_API_URL}/tasks/${this.taskId}`, data)
+                await api.put(`${import.meta.env.VITE_API_URL}/tasks/${this.taskId}`, data)
             } finally {
                 this.redirectToMainPage()
             }
@@ -44,7 +44,7 @@ export default {
         async loadTask() {
             this.loading = true;
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/tasks/${this.taskId}`)
+                const res = await api.get(`${import.meta.env.VITE_API_URL}/tasks/${this.taskId}`)
                 this.task = res.data;
             } catch {
                 this.redirectToMainPage();
