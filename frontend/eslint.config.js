@@ -42,7 +42,8 @@ export default [
             "camelcase" : "off",
             "id-length": "off",
             "capitalized-comments": "off",
-            "max-statements": "off"
+            "max-statements": "off",
+            "require-atomic-updates": "off"
         }
     },
 ];

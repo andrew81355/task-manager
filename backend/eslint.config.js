@@ -41,7 +41,13 @@ export default [
             "camelcase" : "off",
             "id-length": "off",
             "capitalized-comments": "off",
-            "max-statements": "off"
+            "max-statements": "off",
+            "func-style": "off",
+            "func-names": "off",
+            "consistent-return": "off",
+            "no-ternary": "off",
+            "prefer-destructuring": "off",
+            "require-atomic-updates": "off",
         }
     },
 ];

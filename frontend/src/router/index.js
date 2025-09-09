@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TaskManager from '../views/TaskManager.vue';
 import TaskEditor from '../views/TaskEditor.vue';
+import Auth from "../views/Auth.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,14 +8,26 @@ const router = createRouter({
     {
       path: '/',
       name: 'tasks',
-      component: TaskManager,
+      component: () => import('../views/TaskManager.vue'), meta: { requiresAuth: true },
     },
     {
       path:'/tasks/:id',
       name: 'TaskDetails',
       component: TaskEditor,
-    }
+    },
+    { path: '/auth', component: Auth },
   ]
-})
+});
+
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth) {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      return;
+    }
+    // eslint-disable-next-line consistent-return
+    return '/auth';
+  }
+});
 
 export default router
