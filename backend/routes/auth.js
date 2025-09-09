@@ -8,7 +8,7 @@ const { JWT_ACCESS_SECRET } = process.env;
 const { JWT_REFRESH_SECRET } = process.env;
 
 function signAccessToken(user) {
-  return jwt.sign({ sub: user.id, email: user.email, refreshVersion: user.refreshToken}, JWT_ACCESS_SECRET, {
+  return jwt.sign({ sub: user.id, email: user.email}, JWT_ACCESS_SECRET, {
     expiresIn: "15m",
   });
 }
