@@ -4,18 +4,16 @@ import { User } from "../models/user.js";
 
 const router = Router();
 
-const { JWT_ACCESS_SECRET } = process.env;
-const { JWT_REFRESH_SECRET } = process.env;
 
 function signAccessToken(user) {
-  return jwt.sign({ sub: user.id, email: user.email}, JWT_ACCESS_SECRET, {
+  return jwt.sign({ sub: user.id, email: user.email}, process.env.JWT_ACCESS_SECRET, {
     expiresIn: "15m",
   });
 }
 function signRefreshToken(user) {
   return jwt.sign(
     { sub: user.id, v: user.refreshVersion ?? 0 },
-    JWT_REFRESH_SECRET,
+    process.env.JWT_REFRESH_SECRET,
     { expiresIn: "14d" }
   );
 }
@@ -27,7 +25,7 @@ export function authenticate(req, res, next) {
     return res.status(401).json({ message: "No token" });
   }
   try {
-    req.user = jwt.verify(token, JWT_ACCESS_SECRET);
+    req.user = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     next();
   } catch {
     res.status(401).json({ message: "Invalid/expired token" });
@@ -116,7 +114,7 @@ router.post("/refresh", async (req, res) => {
       return res.status(401).json({ message: "Missing refresh token" });
     }
 
-    const payload = jwt.verify(token, JWT_REFRESH_SECRET); 
+    const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET); 
     const user = await User.findById(payload.sub).select("+refreshVersion");
     if (!user) {
       return res.status(401).json({ message: "Invalid refresh" });
